@@ -12,78 +12,85 @@ import Firebase
 extension LoginController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func handleRegister() {
-        guard let email = emailTextField.text, password = passwordTextField.text, name = nameTextField.text else {
+        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
             print("Form is not valid")
             return
         }
         
-        FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (user: FIRUser?, error) in
+        Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             
             if error != nil {
-                print(error)
+                print(error!)
                 return
             }
             
-            guard let uid = user?.uid else {
+            guard let uid = user?.user.uid else {
                 return
             }
             
             //successfully authenticated user
-            let imageName = NSUUID().UUIDString
-            let storageRef = FIRStorage.storage().reference().child("profile_images").child("\(imageName).jpg")
+            let imageName = UUID().uuidString
+            let storageRef = Storage.storage().reference().child("profile_images").child("\(imageName).jpg")
             
-            if let profileImage = self.profileImageView.image, uploadData = UIImageJPEGRepresentation(profileImage, 0.1) {
-            
-                storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+            if let profileImage = self.profileImageView.image, let uploadData = profileImage.jpegData(compressionQuality: 0.1) {
+                
+                storageRef.putData(uploadData, metadata: nil, completion: { (_, err) in
                     
-                    if error != nil {
+                    if let error = error {
                         print(error)
                         return
                     }
                     
-                    if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
+                    storageRef.downloadURL(completion: { (url, err) in
+                        if let err = err {
+                            print(err)
+                            return
+                        }
                         
-                        let values = ["name": name, "email": email, "profileImageUrl": profileImageUrl]
+                        guard let url = url else { return }
+                        let values = ["name": name, "email": email, "profileImageUrl": url.absoluteString]
                         
-                        self.registerUserIntoDatabaseWithUID(uid, values: values)
-                    }
+                        self.registerUserIntoDatabaseWithUID(uid, values: values as [String : AnyObject])
+                    })
+                    
                 })
             }
         })
     }
     
-    private func registerUserIntoDatabaseWithUID(uid: String, values: [String: AnyObject]) {
-        let ref = FIRDatabase.database().reference()
+    fileprivate func registerUserIntoDatabaseWithUID(_ uid: String, values: [String: AnyObject]) {
+        let ref = Database.database().reference()
         let usersReference = ref.child("users").child(uid)
         
         usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
             
             if err != nil {
-                print(err)
+                print(err!)
                 return
             }
             
-//            self.messagesController?.fetchUserAndSetupNavBarTitle()
-//            self.messagesController?.navigationItem.title = values["name"] as? String
-            let user = User()
-            //this setter potentially crashes if keys don't match
-            user.setValuesForKeysWithDictionary(values)
+            //            self.messagesController?.fetchUserAndSetupNavBarTitle()
+            //            self.messagesController?.navigationItem.title = values["name"] as? String
+            let user = User(dictionary: values)
             self.messagesController?.setupNavBarWithUser(user)
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         })
     }
     
-    func handleSelectProfileImageView() {
+    @objc func handleSelectProfileImageView() {
         let picker = UIImagePickerController()
         
         picker.delegate = self
         picker.allowsEditing = true
         
-        presentViewController(picker, animated: true, completion: nil)
+        present(picker, animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // Local variable inserted by Swift 4.2 migrator.
+        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+        
         
         var selectedImageFromPicker: UIImage?
         
@@ -98,13 +105,18 @@ extension LoginController: UIImagePickerControllerDelegate, UINavigationControll
             profileImageView.image = selectedImage
         }
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
         
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         print("canceled picker")
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+    return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }

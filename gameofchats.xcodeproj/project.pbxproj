@@ -12,6 +12,7 @@
 		C7027A6F1D2AF8E0007AA9BF /* LoginController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7027A6E1D2AF8E0007AA9BF /* LoginController+handlers.swift */; };
 		C7027A751D2C1924007AA9BF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7027A741D2C1924007AA9BF /* Extensions.swift */; };
 		C7027A7F1D2EC471007AA9BF /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7027A7E1D2EC471007AA9BF /* ChatLogController.swift */; };
+		C70979512176752300B93590 /* ChatInputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70979502176752300B93590 /* ChatInputContainerView.swift */; };
 		C746CBA81D35C8B6001FE7F2 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C746CBA71D35C8B6001FE7F2 /* ChatMessageCell.swift */; };
 		C7A24D811D1E45DF00011542 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A24D801D1E45DF00011542 /* AppDelegate.swift */; };
 		C7A24D831D1E45DF00011542 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A24D821D1E45DF00011542 /* MessagesController.swift */; };
@@ -34,6 +35,7 @@
 		C7027A6E1D2AF8E0007AA9BF /* LoginController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginController+handlers.swift"; sourceTree = "<group>"; };
 		C7027A741D2C1924007AA9BF /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C7027A7E1D2EC471007AA9BF /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
+		C70979502176752300B93590 /* ChatInputContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputContainerView.swift; sourceTree = "<group>"; };
 		C746CBA71D35C8B6001FE7F2 /* ChatMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		C7A24D7D1D1E45DF00011542 /* gameofchats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gameofchats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7A24D801D1E45DF00011542 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			children = (
 				C7FAEA991D304A4700BD5712 /* UserCell.swift */,
 				C746CBA71D35C8B6001FE7F2 /* ChatMessageCell.swift */,
+				C70979502176752300B93590 /* ChatInputContainerView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -180,11 +183,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = letsbuildthatapp;
 				TargetAttributes = {
 					C7A24D7C1D1E45DF00011542 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 5RTAWRP7KM;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -248,7 +253,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		B234BB7E0B1640558EB1D182 /* [CP] Copy Pods Resources */ = {
@@ -274,6 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7027A7F1D2EC471007AA9BF /* ChatLogController.swift in Sources */,
+				C70979512176752300B93590 /* ChatInputContainerView.swift in Sources */,
 				C7027A141D2455B5007AA9BF /* NewMessageController.swift in Sources */,
 				C7A24D831D1E45DF00011542 /* MessagesController.swift in Sources */,
 				C7FAEA911D2F4AB700BD5712 /* Message.swift in Sources */,
@@ -318,13 +324,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -364,13 +380,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -389,6 +415,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -399,10 +426,12 @@
 			baseConfigurationReference = 911BE54CDD9D6776F3F65582 /* Pods-gameofchats.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 5RTAWRP7KM;
 				INFOPLIST_FILE = gameofchats/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.letsbuildthatapp.gameofchats;
+				PRODUCT_BUNDLE_IDENTIFIER = com.moonriseapps.chatapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -411,10 +440,12 @@
 			baseConfigurationReference = 2BF7E19844AE7BCEB8C72F3D /* Pods-gameofchats.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 5RTAWRP7KM;
 				INFOPLIST_FILE = gameofchats/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.letsbuildthatapp.gameofchats;
+				PRODUCT_BUNDLE_IDENTIFIER = com.moonriseapps.chatapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
